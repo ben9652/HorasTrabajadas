@@ -1,0 +1,6 @@
+1- Agregar actividad
+2- Listar actividades
+3- Salir
+
+La opción 1 nos llevará a una pantalla en la que solo se nos pedirá el nombre que queremos para la actividad.
+La opción 2 nos llevará a un sub-menú detallado en el archivo "Menú Listar actividades".

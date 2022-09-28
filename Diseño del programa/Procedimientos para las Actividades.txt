@@ -1,0 +1,3 @@
+CrearActividad(nombre);			// Crea una nueva actividad
+ModificarNombreActividad(nombre);	// Modifica el nombre de una actividad
+EliminarActividad(nombre);

@@ -1,0 +1,17 @@
+// Agrega un registro a la actividad y le pone un id automáticamente
+AgregarRegistro(idActividad, segundosConsumidos, descripcion);
+
+// Modifica el tiempo de un registro
+ModificarTiempoConsumido(idRegistro, idActividad, segundosConsumidos);
+// Modifica la fecha de creación del registro
+ModificarFechaCreacion(idRegistro, idActividad, fechaCreacion);
+// Modifica la hora de creación del registro
+ModificarHoraCreacion(idRegistro, idActividad, horaCreacion);
+// Modifica la descripcion de un registro
+ModificarDescricpion(idRegistro, idActividad, descripcion);
+
+// Elimina el registro especificado
+EliminarRegistro(idRegistro, idActividad);
+
+// Muestra los registros creados agrupados por una determinada duración
+MostrarPorTiempoLimite(idActividad, tiempo);

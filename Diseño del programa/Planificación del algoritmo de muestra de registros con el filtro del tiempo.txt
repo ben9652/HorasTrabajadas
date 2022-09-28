@@ -1,0 +1,28 @@
+Variables a usar:
+ - sumaRegistros: será la suma de todos los tiempos de los registros de la actividad actual.
+ - sumaTemp: será la suma de todos los tiempos de los registros de la tabla temporal.
+ - indiceRegistro: irá tomando los valores de idRegistro. Se incrementará una vez el tiempo usado del registro llegue a segundosIndice.
+ - indiceConjunto: irá tomando los valores de idConjuntoRegistros. Se incrementará una vez el tiempo vacante del conjunto haya llegado a cero.
+ - tiempoRestante: es el tiempo que queda por registrar del tiempo tomado del registro actual.
+ - tiempoVacanteConjunto: es el tiempo que queda vacante en el conjunto de registros. Cuando este tiempo haya llegado a 0, se reiniciará al valor de tiempoFiltro.
+
+En el algoritmo hay dos bucles:
+	1. El más externo: es el que se mantiene ejecutando con la condición "sumaRegistros != sumaTemp".
+	2. El interno: es el que se mantiene ejecutándose con la condición "tiempoRestante > 0". Es el encargado de la adición de las partes del registro al que se está apuntando.
+
+Antes de comenzar con los bucles, se inicializan:
+	- sumaRegistros
+	- sumaTemp
+	- indiceRegistro
+	- indiceConjunto
+	- tiempoVacanteConjunto
+
+En el primer bucle se inicializan, al principio de su ejecución, las siguientes variables:
+	- segundosIndice
+	- tiempoRestante
+
+En el segundo bucle se debe inicializar el valor del sub-tiempo a agregar de acuerdo al siguiente criterio:
+	1. Si el tiempo restante es menor o igual al tiempo de filtrado, ejecutar lo siguiente:
+		1a. Si el tiempo restante es menor o igual al tiempo vacante del conjunto, asignar el tiempo restante.
+		1b. Si el tiempo restante es mayor al tiempo vacante del conjunto, asignar el tiempo vacante.
+	2. Si el tiempo restante es mayor al tiempo de filtrado, asignar el tiempo vacante.
