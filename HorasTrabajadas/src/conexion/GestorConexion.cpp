@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string.h>
 #include "GestorConexion.h"
 #include "ConnectionException.h"
 
@@ -37,7 +38,12 @@ GestorConexion::GestorConexion(const char* usuario, const char* clave, const cha
 		conector = driver->connect(connection_properties);
 	}
 	catch (sql::SQLException e) {
-		throw ConnectionException(ABRIR_CONEXION_ERROR);
+		char* mensaje = (char*)malloc(500);
+		memset(mensaje, 0, 500);
+		strcat_s(mensaje, 500, ABRIR_CONEXION_ERROR);
+		strcat_s(mensaje, 500, "\n\nError de MySQL: ");
+		strcat_s(mensaje, 500, e.what());
+		throw ConnectionException(mensaje);
 	}
 }
 
@@ -84,4 +90,14 @@ void GestorConexion::cerrarConexion()
 	}
 	else
 		throw sql::SQLString(ERROR_CONEXION);
+}
+
+const char* GestorConexion::getUsuario() const
+{
+	return this->usuario;
+}
+
+const char* GestorConexion::getServidor() const
+{
+	return this->conector->getClientInfo().c_str();
 }

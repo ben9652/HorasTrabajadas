@@ -58,18 +58,39 @@ void ControladorPrincipal::ejecutarLogica(const char* servidor)
 	GestorRegistros* gr = GestorRegistros::instanciar();
 	GestorDatos* gd = GestorDatos::instanciar();
 
-	sql::ResultSet* res;
+	sql::ResultSet* res = nullptr;
 	sql::Statement* stmt;
+
+	sql::SQLString consulta;
+	sql::SQLString condicion_usuario = "";
+	if(strcmp(conexion->getUsuario(), "keanu") == 0)
+		condicion_usuario = " WHERE idActividad = 1";
 
 	// Obtengo la cantidad de filas que hay en la tabla Actividades
 	stmt = conexion->createStatement();
-	res = stmt->executeQuery("SELECT COUNT(*) FROM Actividades");
+	consulta = "SELECT COUNT(*) FROM Actividades";
+	if(condicion_usuario.length() != 0)
+		consulta += condicion_usuario;
+	try {
+		res = stmt->executeQuery(consulta);
+	}
+	catch(sql::SQLException e) {
+		std::cout << e.what() << std::endl;
+	}
 	res->next();
 	gd->asignarCantidadActividadesEnBD(res->getUInt(1));
 
 	// Obtengo la cantidad de filas que hay en la tabla Registros
 	stmt = conexion->createStatement();
-	res = stmt->executeQuery("SELECT COUNT(*) FROM Registros;");
+	consulta = "SELECT COUNT(*) FROM Registros";
+	if (condicion_usuario.length() != 0)
+		consulta += condicion_usuario;
+	try {
+		res = stmt->executeQuery(consulta);
+	}
+	catch (sql::SQLException e) {
+		std::cout << e.what() << std::endl;
+	}
 	res->next();
 	gd->asignarCantidadRegistrosEnBD(res->getUInt(1));
 
@@ -78,8 +99,8 @@ void ControladorPrincipal::ejecutarLogica(const char* servidor)
 	std::thread cargaDeDatos(VistaPrincipal::mostrarCargaDeDatos);
 
 	// Obtengo los datos de la base de datos
-	ga->Dame();
-	gr->Dame();
+	ga->Dame(conexion->getUsuario());
+	gr->Dame(conexion->getUsuario());
 
 	cargaDeDatos.join();
 

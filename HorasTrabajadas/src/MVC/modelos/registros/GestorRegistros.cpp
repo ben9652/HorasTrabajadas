@@ -81,10 +81,11 @@ void GestorRegistros::AgregarRegistro(int idActividad, unsigned int segundosCons
     GestorDatos* gd = GestorDatos::instanciar();
 
     try {
-        sql::PreparedStatement* pstmt = gc->prepareStatement("CALL AgregarRegistro(?,?,?,@id)");
+        sql::PreparedStatement* pstmt = gc->prepareStatement("CALL AgregarRegistro(?,?,?,?,@id)");
         pstmt->setInt(1, idActividad);
         pstmt->setUInt(2, segundosConsumidos);
         pstmt->setString(3, descripcion);
+        pstmt->setString(4, gc->getUsuario());
         pstmt->execute();
 
         delete pstmt;
@@ -100,7 +101,7 @@ void GestorRegistros::AgregarRegistro(int idActividad, unsigned int segundosCons
     localtime_s(fechaCreacion, &tActual);
 
     gd->agregar_RegistroEnBD();
-    Dame();
+    Dame(gc->getUsuario());
 
     cantidad_de_filas_en_bd++;
 }
@@ -110,11 +111,21 @@ sql::ResultSet* GestorRegistros::EliminarRegistro(int idRegistro, int idActivida
     GestorConexion* gc = GestorConexion::instanciar();
     GestorDatos* gd = GestorDatos::instanciar();
     sql::ResultSet* res;
+    sql::PreparedStatement* pstmt;
 
-    sql::PreparedStatement* pstmt = gc->prepareStatement("CALL EliminarRegistro(?,?,@m)");
-    pstmt->setInt(1, idRegistro);
-    pstmt->setInt(2, idActividad);
-    pstmt->execute();
+    try {
+        pstmt = gc->prepareStatement("CALL EliminarRegistro(?,?,@m)");
+        pstmt->setInt(1, idRegistro);
+        pstmt->setInt(2, idActividad);
+        pstmt->execute();
+    }
+    catch (sql::SQLException e) {
+		const char* msg = e.what();
+        std::cout << std::endl;
+		std::cout << msg << std::endl;
+        std::cin.get();
+		return nullptr;
+	}
 
     pstmt = gc->prepareStatement("SELECT @m");
     res = pstmt->executeQuery();
@@ -129,7 +140,7 @@ sql::ResultSet* GestorRegistros::EliminarRegistro(int idRegistro, int idActivida
     // Actualizo la lista de registros
     cantidad_de_filas_en_bd--;
     gd->eliminar_RegistroEnBD();
-    Dame();
+    Dame(gc->getUsuario());
 
     return res;
 }
@@ -154,7 +165,7 @@ sql::ResultSet* GestorRegistros::BuscarRegistro(int idRegistro, int idActividad,
     return res;
 }
 
-void GestorRegistros::Dame()
+void GestorRegistros::Dame(const char* usuario)
 {
     GestorDatos* gd = GestorDatos::instanciar();
     gd->asignarCantidadRegistros(0);
@@ -176,7 +187,11 @@ void GestorRegistros::Dame()
 
     GestorConexion* conector = GestorConexion::instanciar();
     sql::Statement* stmt = conector->createStatement();
-    sql::ResultSet* res = stmt->executeQuery("SELECT * FROM Registros");
+
+    std::string consulta = "SELECT * FROM Registros";
+    if (strcmp(usuario, "keanu") == 0)
+        consulta += " WHERE idActividad = 1";
+    sql::ResultSet* res = stmt->executeQuery(consulta);
 
     int contador = 0;
     while (res->next())

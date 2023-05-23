@@ -31,6 +31,12 @@ public:
 	// Cerrar la conexión con el servidor SQL
 	void cerrarConexion();
 
+	// Obtener el nombre del usuario con el que se abrió la conexión
+	const char* getUsuario() const;
+
+	// Obtener el nombre del servidor con el que se abrió la conexión
+	const char* getServidor() const;
+
 private:
 	GestorConexion(const char* usuario, const char* clave, const char* servidor);
 

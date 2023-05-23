@@ -72,7 +72,7 @@ sql::ResultSet* GestorActividades::CrearActividad(const char* nombreActividad)
 
         cantidad_de_filas_en_bd++;
         gd->agregar_ActividadEnBD();
-        Dame();
+        Dame(gc->getUsuario());
     }
     return res;
 }
@@ -136,7 +136,7 @@ sql::ResultSet* GestorActividades::BorrarActividad(int idActividad)
     return res;
 }
 
-void GestorActividades::Dame()
+void GestorActividades::Dame(const char* usuario)
 {
     GestorDatos* gd = GestorDatos::instanciar();
     gd->asignarCantidadActividades(0);
@@ -149,7 +149,11 @@ void GestorActividades::Dame()
 
     GestorConexion* conector = GestorConexion::instanciar();
     sql::Statement* stmt = conector->createStatement();
-    sql::ResultSet* res = stmt->executeQuery("SELECT * FROM Actividades");
+
+    std::string consulta = "SELECT * FROM Actividades";
+    if (strcmp(usuario, "keanu") == 0)
+		consulta += " WHERE idActividad = 1";
+    sql::ResultSet* res = stmt->executeQuery(consulta);
 
     int contador = 0;
     while (res->next())

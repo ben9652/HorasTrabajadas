@@ -25,7 +25,7 @@ public:
 	sql::ResultSet* CrearActividad(const char* nombreActividad);
 	sql::ResultSet* ModificarActividad(int idActividad, const char* nuevoNombre);
 	sql::ResultSet* BorrarActividad(int idActividad);
-	void Dame();
+	void Dame(const char* usuario = "");
 
 private:
 	GestorActividades()

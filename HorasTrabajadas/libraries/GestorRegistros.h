@@ -48,7 +48,7 @@ public:
 	sql::ResultSet* EliminarRegistro(int idRegistro, int idActividad);
 	sql::ResultSet* BuscarRegistro(int idRegistro, int idActividad, const char* criterioTiempo, unsigned int segundosConsumidos, const char* criterioFecha, const char* fecha, const char* descripcion);
 
-	void Dame();
+	void Dame(const char* usuario = "");
 
 private:
 	GestorRegistros()
