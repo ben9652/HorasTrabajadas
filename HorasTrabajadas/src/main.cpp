@@ -105,7 +105,6 @@ int main(int argc, char** argv)
 	v.erase(v.begin() + 1);
 #endif
 
-	//pruebaFiltradoTiempo();
 	if (argc == 1)
 		ControladorPrincipal cp;
 	else if (argc == 2)

@@ -22,8 +22,8 @@ Registro::Registro(int idRegistro, int idActividad, unsigned int segundosConsumi
 	this->segundosConsumidos = segundosConsumidos;
 	this->fechaCreacion = (tm*)malloc(sizeof(tm));
 	this->fechaCreacion = fechaCreacion;
-	this->descripcion = (char*)malloc(256);
-	strcpy_s(this->descripcion, 256, descripcion);
+	this->descripcion = (char*)malloc(DESCRIPTION_SIZE);
+	strcpy_s(this->descripcion, DESCRIPTION_SIZE, descripcion);
 	this->nullFlag = false;
 
 	actualizarHorasMinutosSegundos();
@@ -41,8 +41,8 @@ Registro::Registro(const Registro& other) noexcept
 	fechaCreacion->tm_hour = other.fechaCreacion->tm_hour;
 	fechaCreacion->tm_min = other.fechaCreacion->tm_min;
 	fechaCreacion->tm_sec = other.fechaCreacion->tm_sec;
-	descripcion = (char*)malloc(256);
-	strcpy_s(descripcion, 256, other.descripcion);
+	descripcion = (char*)malloc(DESCRIPTION_SIZE);
+	strcpy_s(descripcion, DESCRIPTION_SIZE, other.descripcion);
 	this->nullFlag = false;
 
 	actualizarHorasMinutosSegundos();
@@ -55,8 +55,8 @@ Registro::Registro(Registro&& other) noexcept
 	segundosConsumidos = other.segundosConsumidos;
 	fechaCreacion = (tm*)malloc(sizeof(tm));
 	memcpy(fechaCreacion, other.fechaCreacion, sizeof(tm));
-	descripcion = (char*)malloc(256);
-	strcpy_s(descripcion, 256, other.descripcion);
+	descripcion = (char*)malloc(DESCRIPTION_SIZE);
+	strcpy_s(descripcion, DESCRIPTION_SIZE, other.descripcion);
 	this->nullFlag = false;
 
 	actualizarHorasMinutosSegundos();
@@ -260,7 +260,7 @@ void Registro::setFechaCreacion(tm* fechaCreacion)
 
 void Registro::setDescripcion(const char* descripcion)
 {
-	strcpy_s(this->descripcion, 256, descripcion);
+	strcpy_s(this->descripcion, DESCRIPTION_SIZE, descripcion);
 }
 
 void Registro::ModificarTiempo(unsigned int segundosConsumidos)
@@ -287,7 +287,7 @@ void Registro::ModificarDescripcion(const char* descripcion)
 	pstmt->execute();
 	delete pstmt;
 
-	strcpy_s(this->descripcion, 256, descripcion);
+	strcpy_s(this->descripcion, DESCRIPTION_SIZE, descripcion);
 }
 
 int Registro::getHoras()

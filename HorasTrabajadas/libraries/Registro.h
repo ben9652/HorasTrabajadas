@@ -3,6 +3,7 @@
 
 #ifndef __REGISTRO
 #define __REGISTRO
+#define DESCRIPTION_SIZE 300
 
 class Registro
 {

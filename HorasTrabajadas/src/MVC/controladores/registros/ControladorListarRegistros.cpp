@@ -48,7 +48,6 @@ void ControladorListarRegistros::ejecutarLogica()
 
 	do
 	{
-		vista->limpiarTabla();
 		vista->limpiar();
 		size_t cantidadRegistros = actividad->getRegistrosTotales();
 
@@ -60,13 +59,11 @@ void ControladorListarRegistros::ejecutarLogica()
 			else
 				c++;
 			strcpy_s(idRegistro, 20, r.getIdRegistroString());
-			strcpy_s(segundosConsumidos, 20, r.getSegundosConsumidosString());
 			strcpy_s(fechaCreacion, 20, r.getFechaCreacionString());
-			vista->addFila(idRegistro, segundosConsumidos, fechaCreacion, r.getDescripcion());
+			vista->mostrarRegistro(idRegistro, r.getTiempoConsumido(), fechaCreacion, r.getDescripcion());
+			
+			vista->mostrar("\n\t\t-----------------------------------------------------\n\n");
 		}
-
-		vista->mostrarTabla();
-		vista->mostrar("\n");
 
 		size_t digitosCantidadRegistros;
 		size_t sizeRegistros = cantidadRegistros;

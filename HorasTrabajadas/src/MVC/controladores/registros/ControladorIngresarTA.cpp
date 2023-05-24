@@ -24,7 +24,7 @@ void ControladorIngresarTA::ejecutarLogica()
 		if ((tiempoFiltro = tiempoIngresadoCorrectamente(tiempoFiltroString)) == -1)
 		{
 			vista->limpiar();
-			vista->mostrar("El formato del tiempo ingresado no es correcto.");
+			vista->mostrar("\nFormato incorrecto.\nEl formato puede ser:\n- <numero>(s): se expresa simplemente en segundos\n- <numero>m: se expresa en minutos\n- <numero>m<numero>s: se expresa en minutos y segundos");
 			vista->ingresar(0);
 			continue;
 		}

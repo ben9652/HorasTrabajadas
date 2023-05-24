@@ -73,7 +73,7 @@ void ControladorARegistro::ejecutarLogica()
 
 		if ((tiempoSegundos = tiempoIngresadoCorrectamente(tiempoString)) == -1)
 		{
-			vista->mostrar("Formato incorrecto. Inténtelo de nuevo.");
+			vista->mostrar("\nFormato incorrecto.\nEl formato puede ser:\n- <numero>(s): se expresa simplemente en segundos\n- <numero>m: se expresa en minutos\n- <numero>m<numero>s: se expresa en minutos y segundos");
 			vista->ingresar(0);
 			texto_escrito_tiempo = true;
 			continue;

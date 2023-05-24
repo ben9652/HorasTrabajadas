@@ -110,7 +110,7 @@ unsigned int ControladorFiltroTiempo::escribirTiempoFiltro()
 
 		if (tiempo == -1)
 		{
-			vista->mostrar("El formato ingresado de tiempo es incorrecto. Inténtalo de nuevo.");
+			vista->mostrar("\nFormato incorrecto.\nEl formato puede ser:\n- <numero>(s): se expresa simplemente en segundos\n- <numero>m: se expresa en minutos\n- <numero>m<numero>s: se expresa en minutos y segundos");
 			vista->ingresar(0);
 		}
 

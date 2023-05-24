@@ -115,6 +115,12 @@ void ControladorMTiempo::ejecutarLogica()
 
 		resultado = vista->ingresar_con_memoria(9, tiempoString, index_tiempoString, teclas_apretadas_tiempoString);
 
+		if (strlen(tiempoString) == 0)
+		{
+			texto_escrito_tiempo = false;
+			return;
+		}
+		
 		if (resultado == 0x1B)
 		{
 			texto_escrito_tiempo = true;
@@ -123,7 +129,7 @@ void ControladorMTiempo::ejecutarLogica()
 
 		if ((tiempoSegundos = tiempoIngresadoCorrectamente()) == -1)
 		{
-			vista->mostrar("Formato incorrecto. Inténtelo de nuevo.");
+			vista->mostrar("\nFormato incorrecto.\nEl formato puede ser:\n- <numero>(s): se expresa simplemente en segundos\n- <numero>m: se expresa en minutos\n- <numero>m<numero>s: se expresa en minutos y segundos");
 			vista->ingresar(0);
 			texto_escrito_tiempo = true;
 			continue;

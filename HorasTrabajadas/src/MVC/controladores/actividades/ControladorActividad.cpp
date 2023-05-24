@@ -1,7 +1,8 @@
+#include "ControladorListarRegistros.h"
 #include "ControladorActividad.h"
 #include "ControladorARegistro.h"
-#include "ControladorListarRegistros.h"
 #include "ControladorBuscarRegistros.h"
+#include "ControladorTiemposUsuarios.h"
 #include "ControladorIngresarTA.h"
 #include "ControladorMostrarConjuntos.h"
 #include "ControladorModifyNameAct.h"
@@ -58,12 +59,14 @@ void ControladorActividad::ejecutarLogica()
 		else if (opcion == 3)
 			ControladorBuscarRegistros cbr(std::move(*modelo));
 		else if (opcion == 4)
-			ControladorIngresarTA cita(std::move(*modelo));
+			ControladorTiemposUsuarios ctu(std::move(*modelo));
 		else if (opcion == 5)
-			ControladorMostrarConjuntos cmc(std::move(*modelo));
+			ControladorIngresarTA cita(std::move(*modelo));
 		else if (opcion == 6)
-			ControladorModifyNameAct cmna(std::move(*modelo));
+			ControladorMostrarConjuntos cmc(std::move(*modelo));
 		else if (opcion == 7)
+			ControladorModifyNameAct cmna(std::move(*modelo));
+		else if (opcion == 8)
 		{
 			ControladorDelActividad cda(std::move(*modelo));
 			if (cda.ejecutarLogica())
