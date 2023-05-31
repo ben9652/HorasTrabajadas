@@ -19,3 +19,4 @@ HorasTrabajadas/x64/Debug/*
 *.ipch
 *.lib
 *.dll
+*.sln
