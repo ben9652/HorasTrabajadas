@@ -4,7 +4,6 @@
 #include <vector>
 #include "Registro.h"
 #include "ControladorPrincipal.h"
-#include "Arbol_2_3.h"
 #include "GestorConexion.h"
 #include <unordered_map>
 #include <array>

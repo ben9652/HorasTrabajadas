@@ -19,11 +19,11 @@ bool ControladorDelActividad::ejecutarLogica()
 	resultado = ga->BorrarActividad(modelo->getIdActividad());
 	sql::SQLString mensaje_devuelto = resultado->getString(1);
 #ifdef FUNCIONA_CHARACTER_SET_LATIN
-	if (mensaje_devuelto == "�Actividad eliminada con �xito!")
+	if (mensaje_devuelto == "¡Actividad eliminada con éxito!")
 		resultado_operacion_borrado = true;
 	vista->mostrar(mensaje_devuelto.c_str());
 #else
-	if (!strcmp(utf8_to_ascii(mensaje_devuelto.c_str()), "�Actividad eliminada con �xito!"))
+	if (!strcmp(utf8_to_ascii(mensaje_devuelto.c_str()), "¡Actividad eliminada con éxito!"))
 		resultado_operacion_borrado = true;
 	vista->mostrar(utf8_to_ascii(mensaje_devuelto.c_str()));
 #endif

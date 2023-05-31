@@ -1,4 +1,4 @@
-#include "GestorActividades.h"
+﻿#include "GestorActividades.h"
 #include "GestorDatos.h"
 #include "GestorConexion.h"
 #include "common.h"
@@ -56,7 +56,13 @@ sql::ResultSet* GestorActividades::CrearActividad(const char* nombreActividad)
     sql::ResultSet* res;
     sql::PreparedStatement* pstmt = gc->prepareStatement("CALL CrearActividad(?,@m)");
     pstmt->setString(1, nombreActividad);
-    pstmt->execute();
+    
+    try {
+		pstmt->execute();
+	}
+    catch (sql::SQLException e) {
+		std::cout << e.what() << std::endl;
+	}
 
     pstmt = gc->prepareStatement("SELECT @m");
     res = pstmt->executeQuery();
@@ -64,9 +70,11 @@ sql::ResultSet* GestorActividades::CrearActividad(const char* nombreActividad)
     sql::SQLString mensaje = res->getString(1);
 
 #ifdef FUNCIONA_CHARACTER_SET_LATIN
-    if (mensaje == "�Actividad creada con �xito!")
+    if (mensaje == "¡Actividad creada con éxito!")
 #else
-    if (!strcmp(utf8_to_ascii(mensaje.c_str()), "�Actividad creada con �xito!"))
+    char* mensajeChar = utf8_to_ascii(mensaje.c_str());
+    const char* mensajeExito = "¡Actividad creada con éxito!";
+    if (strcmp(mensajeChar, mensajeExito) == 0)
 #endif
     {
         int nuevoID = actividades[actividades.size() - 1].getIdActividad() + 1;
@@ -96,7 +104,7 @@ sql::ResultSet* GestorActividades::ModificarActividad(int idActividad, const cha
     res->next();
     sql::SQLString mensaje = res->getString(1);
 
-    if (mensaje == "�Actividad modificada con �xito!")
+    if (mensaje == "¡Actividad modificada con éxito!")
     {
         int index = indices.at(idActividad);
         actividades[index].setNombre(nuevoNombre);

@@ -1,12 +1,11 @@
-#include <iostream>
-#include <clocale>
+﻿#include <iostream>
+#include <locale>
 #include <Windows.h>
 #include "ControladorPrincipal.h"
 #include <TextTable.h>
 #include <Psapi.h>
 #include "common.h"
 #include <ctime>
-#include "Prueba.h"
 #include <string.h>
 #include <unordered_map>
 #include <initializer_list>
@@ -22,14 +21,13 @@
 void print_256_colours_txt();
 void usoDeTextTable();
 void avanceDePorcentaje();
-Prueba& pruebaClase();
 void pruebaFiltradoTiempo();
 bool ip_valida(const char* cadena);
 
 int main(int argc, char** argv)
 {
-	// Usa el conjunto de caracteres del c�digo ISO/IEC 8859-1, que sirven
-	// para poder usar caracteres del espa�ol en las cadenas de caracteres
+	// Usa el conjunto de caracteres del código ISO/IEC 8859-1, que sirven
+	// para poder usar caracteres del español en las cadenas de caracteres
 	std::setlocale(LC_ALL, "spanish");
 
 	// Para poner el programa en pantalla completa
@@ -60,7 +58,7 @@ int main(int argc, char** argv)
 	}
 	else
 	{
-		std::cout << "Cantidad inv�lida de argumentos" << std::endl;
+		std::cout << "Cantidad inválida de argumentos" << std::endl;
 		return 1;
 	}
 
@@ -86,12 +84,12 @@ void usoDeTextTable()
 	t.add("Edad");
 	t.endOfRow();
 
-	t.add("Mois�s");
+	t.add("Moisés");
 	t.add("masculino");
 	t.add("4556");
 	t.endOfRow();
 
-	t.add("Jes�s");
+	t.add("Jesús");
 	t.add("masculino");
 	t.add("2022");
 	t.endOfRow();
@@ -101,7 +99,7 @@ void usoDeTextTable()
 	t.add("3001");
 	t.endOfRow();
 
-	t.add("Bob �u�s�");
+	t.add("Bob Isaías");
 	t.add("masculino");
 	t.add("25");
 	t.endOfRow();
@@ -135,13 +133,6 @@ void avanceDePorcentaje()
 		clock_t now = clock();
 		while (clock() - now < CLOCKS_PER_SEC / 4);
 	} while (1);
-}
-
-Prueba& pruebaClase()
-{
-	Prueba* prueba = new Prueba(3);
-	Prueba& p = *prueba;
-	return p;
 }
 
 void pruebaFiltradoTiempo()

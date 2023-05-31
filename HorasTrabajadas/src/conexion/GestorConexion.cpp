@@ -32,6 +32,7 @@ GestorConexion::GestorConexion(const char* usuario, const char* clave, const cha
 	connection_properties["port"] = 3306;
 	connection_properties["OPT_RECONNECT"] = true;
 	connection_properties["characterSetResults"] = "latin1";
+	connection_properties["OPT_CHARSET_NAME"] = "latin1";
 
 	try {
 		driver = get_driver_instance();

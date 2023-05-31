@@ -62,9 +62,9 @@ void ControladorAccionBReg::ejecutarLogica()
 		res->next();
 		sql::SQLString mensaje = res->getString(1);
 #ifdef FUNCIONA_CHARACTER_SET_LATIN
-		if(mensaje == "B�squeda exitosa")
+		if(mensaje == "Búsqueda exitosa")
 #else
-		if (!strcmp(utf8_to_ascii(mensaje.c_str()), "B�squeda exitosa"))
+		if (!strcmp(utf8_to_ascii(mensaje.c_str()), "Búsqueda exitosa"))
 #endif
 		{
 			vista->mostrar(mensaje.c_str());
@@ -85,7 +85,7 @@ void ControladorAccionBReg::ejecutarLogica()
 		do
 		{
 			vista->irXY(posicionActual.X, posicionActual.Y);
-			vista->mostrar("A continuaci�n, puede ingresar alg�n ID para acceder a un registro en particular: ");
+			vista->mostrar("A continuación, puede ingresar algún ID para acceder a un registro en particular: ");
 			for (int i = 0; i < digitosIDMaximo; i++)
 				vista->mostrar(" ");
 			for (int i = 0; i < digitosIDMaximo; i++)

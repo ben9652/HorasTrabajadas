@@ -51,7 +51,7 @@ int ControladorPrincipal::iniciarSesion(const char* servidor, char* usuario, cha
 		u->mostrar("Usuario: ");
 		usuario = u->ingresar(50);
 
-		u->mostrar("Contrase�a: ");
+		u->mostrar("Contraseña: ");
 		contrasenia = u->ingresar_password(100);
 	}
 
