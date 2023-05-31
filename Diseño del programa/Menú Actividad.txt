@@ -1,0 +1,32 @@
+1- Ingresar tiempo
+2- Listar registros
+3- Buscar registros
+4- Ingresar un tiempo en el que agrupar los registros
+5- Mostrar registros agrupados
+6- Modificar nombre de la actividad
+7- Volver al menú de actividades
+8- Volver al menú principal
+
+La opción 1 nos hará ingresar el tiempo que queramos agregar, y luego la descripción que queramos poner.
+
+La opción 2 nos llevará a un menú en el que podemos listar los registros por:
+	- Mes y año
+	- Conjuntos de registros con tiempos completados
+
+La opción 3 nos llevará a un menú en donde poder buscar por:
+	1. ID de registro
+	2. Tiempos iguales al ingresado
+	3. Tiempos iguales o mayores al ingresado
+	4. Tiempos iguales o menores al ingresado
+	5. Fechas iguales a la de creación
+	6. Fechas iguales o mayores a la de creación
+	7. Fechas iguales o menores a la de creación
+	8. Descripción
+    	9. Buscar
+Las opciones 2, 3, y 4 serán agrupadas en una sola (de número 2), y las 5, 6, y 7 serán agrupadas en una sola (de número 3). Pero estas opciones serán implementadas con la ayuda de los símbolos > y <. Estas opciones de filtrado van a guardarse, y se verán reflejadas en la opción de búsqueda.
+
+La opción 4 nos pedirá ingresar el tiempo con el que considerar un conjunto entero de registros. Si no se ingresa nada, no habrá conjuntos.
+
+La opción 5 nos permitirá ver los registros agrupados en el tiempo que nos permite agregar la opción 4
+
+La opción 6 nos permitirá modificar el nombre de la actividad

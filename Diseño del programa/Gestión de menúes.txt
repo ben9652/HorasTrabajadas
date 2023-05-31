@@ -1,0 +1,2 @@
+Habrá un gestor de menúes llamado GestorMenues, que se encargará de decir qué menú podrá presentarse la pantalla. Esto permitirá que los controladores puedan correr por detrás los procesos que deban ejecutar.
+Cada menú se abrirá con un método `abrirMenu(Menu)` que recibiría un menú de una enumeración que tiene GestorMenues.
