@@ -63,7 +63,11 @@ sql::ResultSet* GestorActividades::CrearActividad(const char* nombreActividad)
     res->next();
     sql::SQLString mensaje = res->getString(1);
 
-    if (mensaje == "¡Actividad creada con éxito!")
+#ifdef FUNCIONA_CHARACTER_SET_LATIN
+    if (mensaje == "ï¿½Actividad creada con ï¿½xito!")
+#else
+    if (!strcmp(utf8_to_ascii(mensaje.c_str()), "ï¿½Actividad creada con ï¿½xito!"))
+#endif
     {
         int nuevoID = actividades[actividades.size() - 1].getIdActividad() + 1;
         Actividad* actividadNueva = new Actividad(nuevoID, (char*)nombreActividad, 0);
@@ -92,7 +96,7 @@ sql::ResultSet* GestorActividades::ModificarActividad(int idActividad, const cha
     res->next();
     sql::SQLString mensaje = res->getString(1);
 
-    if (mensaje == "¡Actividad modificada con éxito!")
+    if (mensaje == "ï¿½Actividad modificada con ï¿½xito!")
     {
         int index = indices.at(idActividad);
         actividades[index].setNombre(nuevoNombre);

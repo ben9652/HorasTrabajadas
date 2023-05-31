@@ -61,7 +61,11 @@ void ControladorAccionBReg::ejecutarLogica()
 		res = pstmt->executeQuery();
 		res->next();
 		sql::SQLString mensaje = res->getString(1);
-		if (strcmp(mensaje.c_str(), "Búsqueda exitosa"))
+#ifdef FUNCIONA_CHARACTER_SET_LATIN
+		if(mensaje == "Bï¿½squeda exitosa")
+#else
+		if (!strcmp(utf8_to_ascii(mensaje.c_str()), "Bï¿½squeda exitosa"))
+#endif
 		{
 			vista->mostrar(mensaje.c_str());
 			vista->ingresar(0);
@@ -81,7 +85,7 @@ void ControladorAccionBReg::ejecutarLogica()
 		do
 		{
 			vista->irXY(posicionActual.X, posicionActual.Y);
-			vista->mostrar("A continuación, puede ingresar algún ID para acceder a un registro en particular: ");
+			vista->mostrar("A continuaciï¿½n, puede ingresar algï¿½n ID para acceder a un registro en particular: ");
 			for (int i = 0; i < digitosIDMaximo; i++)
 				vista->mostrar(" ");
 			for (int i = 0; i < digitosIDMaximo; i++)

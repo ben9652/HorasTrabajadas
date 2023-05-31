@@ -1,4 +1,4 @@
-#include "ControladorPrincipal.h"
+ï»¿#include "ControladorPrincipal.h"
 #include "ControladorAActividad.h"
 #include "ControladorSelectActividad.h"
 #include "GestorActividades.h"
@@ -16,6 +16,23 @@ ControladorPrincipal::ControladorPrincipal(const char* servidor)
 
 	conexion = nullptr;
 
+	int resultado;
+	do resultado = iniciarSesion(servidor);
+	while (resultado != 0);
+
+	ejecutarLogica(servidor);
+}
+
+ControladorPrincipal::ControladorPrincipal(char* usuario, char* contrasenia, const char* servidor)
+{
+	u = new VistaPrincipal();
+
+	conexion = nullptr;
+
+	int resultado;
+	do resultado = iniciarSesion(servidor, usuario, contrasenia);
+	while (resultado != 0);
+
 	ejecutarLogica(servidor);
 }
 
@@ -25,34 +42,35 @@ ControladorPrincipal::~ControladorPrincipal()
 		conexion->cerrarConexion();
 }
 
-void ControladorPrincipal::ejecutarLogica(const char* servidor)
+int ControladorPrincipal::iniciarSesion(const char* servidor, char* usuario, char* contrasenia)
 {
-	char* user;
-	char* password;
-
-	do
+	if (!usuario && !contrasenia)
 	{
 		u->limpiar();
 
 		u->mostrar("Usuario: ");
-		user = u->ingresar(50);
+		usuario = u->ingresar(50);
 
-		u->mostrar("Contraseña: ");
-		password = u->ingresar_password(100);
+		u->mostrar("Contraseï¿½a: ");
+		contrasenia = u->ingresar_password(100);
+	}
 
-		try {
-			conexion = GestorConexion::abrirConexion(user, password, servidor);
-		}
-		catch (ConnectionException e) {
-			u->mostrar("\n");
-			u->mostrar(e.what());
-			u->mostrar("\n\nPresione ENTER para intentar otra vez.\n");
-			u->ingresar(0);
-			continue;
-		}
+	try {
+		conexion = GestorConexion::abrirConexion(usuario, contrasenia, servidor);
+	}
+	catch (ConnectionException e) {
+		u->mostrar("\n");
+		u->mostrar(e.what());
+		u->mostrar("\n\nPresione ENTER para intentar otra vez.\n");
+		u->ingresar(0);
+		return -1;
+	}
 
-		break;
-	} while (1);
+	return 0;
+}
+
+void ControladorPrincipal::ejecutarLogica(const char* servidor)
+{
 
 	GestorActividades* ga = GestorActividades::instanciar();
 	GestorRegistros* gr = GestorRegistros::instanciar();
@@ -63,18 +81,18 @@ void ControladorPrincipal::ejecutarLogica(const char* servidor)
 
 	sql::SQLString consulta;
 	sql::SQLString condicion_usuario = "";
-	if(strcmp(conexion->getUsuario(), "keanu") == 0)
+	if (strcmp(conexion->getUsuario(), "keanu") == 0)
 		condicion_usuario = " WHERE idActividad = 1";
 
 	// Obtengo la cantidad de filas que hay en la tabla Actividades
 	stmt = conexion->createStatement();
 	consulta = "SELECT COUNT(*) FROM Actividades";
-	if(condicion_usuario.length() != 0)
+	if (condicion_usuario.length() != 0)
 		consulta += condicion_usuario;
 	try {
 		res = stmt->executeQuery(consulta);
 	}
-	catch(sql::SQLException e) {
+	catch (sql::SQLException e) {
 		std::cout << e.what() << std::endl;
 	}
 	res->next();

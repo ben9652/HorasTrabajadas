@@ -3,7 +3,6 @@
 
 #include <vector>
 #include "Actividad.h"
-#include "Arbol_2_3.h"
 #include <string>
 #include <unordered_map>
 
