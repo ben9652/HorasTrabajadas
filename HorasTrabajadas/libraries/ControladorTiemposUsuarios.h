@@ -4,6 +4,7 @@
 #include <TextTable.h>
 #include "Actividad.h"
 #include "GestorConexion.h"
+#include "VistaTiemposUsuarios.h"
 
 class ControladorTiemposUsuarios
 {
@@ -14,6 +15,7 @@ public:
 private:
 	GestorConexion* conector;
 	Actividad* actividad;
+	VistaTiemposUsuarios* vista;
 };
 
 #endif

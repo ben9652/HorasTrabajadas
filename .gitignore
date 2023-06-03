@@ -8,11 +8,13 @@ HorasTrabajadas/x64/Debug/*
 *.tlog
 *.ilk
 *.log
+*.lastbuildstate
 *.idb
 *.pdb
 *.obj
 *.sql
 *.exe
+*.exe.recipe
 *.suo
 *.VC.db
 *.vsidx

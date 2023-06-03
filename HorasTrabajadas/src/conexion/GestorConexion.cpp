@@ -77,7 +77,20 @@ sql::Statement* GestorConexion::createStatement()
 sql::PreparedStatement* GestorConexion::prepareStatement(const sql::SQLString& sql)
 {
 	if (conector != nullptr)
-		return this->conector->prepareStatement(sql);
+	{
+		try {
+			return this->conector->prepareStatement(sql);
+		}
+		catch (sql::SQLException e)
+		{
+			char* mensaje = (char*)malloc(500);
+			memset(mensaje, 0, 500);
+			strcat_s(mensaje, 500, ERROR_STMT);
+			strcat_s(mensaje, 500, "\n\nError de MySQL: ");
+			strcat_s(mensaje, 500, e.what());
+			throw ConnectionException(mensaje);
+		}
+	}
 	else
 		throw sql::SQLException(ERROR_CONEXION);
 }
