@@ -1,6 +1,7 @@
 x64/*
 HorasTrabajadas/x64/*
 HorasTrabajadas/x64/Debug/*
+vendor/curl/
 .vs/*
 *.vcxproj
 *.vcxproj.filters
