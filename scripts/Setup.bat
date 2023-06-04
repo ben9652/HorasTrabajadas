@@ -1,6 +1,6 @@
 @echo off
 
-call "%~dp0\includes\MySQLsetup.bat"
+call "%~dp0\includes\MySQL\MySQLsetup.bat"
 call "%~dp0\includes\Curl\CurlSetup.bat"
 
 pushd ..
