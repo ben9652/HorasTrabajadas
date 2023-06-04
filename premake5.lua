@@ -7,7 +7,7 @@ workspace "HorasTrabajadas"
 
     IncludeDir = {}
     IncludeDir["MySQL"] = "C:/Program Files/MySQL/Connector C++ 8.0/include/jdbc"
-    IncludeDir["cURL"] = "%{workspace.location}/vendor/curl/builds/libcurl-vc-x86-release-static-ipv6-sspi-schannel"
+    IncludeDir["cURL"] = "vendor/curl/builds/libcurl-vc-x86-release-static-ipv6-sspi-schannel"
 
     project "HorasTrabajadas"
         location "HorasTrabajadas"
@@ -76,7 +76,7 @@ workspace "HorasTrabajadas"
         includedirs
         {
             "%{prj.location}/libraries",
-            "vendor/curl/builds/libcurl-vc14-x64-release-dll-ipv6-sspi-schannel/include"
+            "%{IncludeDir.cURL}/include"
         }
             
         defines

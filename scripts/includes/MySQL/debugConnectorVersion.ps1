@@ -38,8 +38,13 @@ Get-ChildItem -Path "$mysql_path\lib64\Debug\vs14\debug" -Recurse | Move-Item -D
 # Elimino el directorio $mysql_path\lib64\Debug\vs14\debug
 Remove-Item -Path "$mysql_path\lib64\Debug\vs14\debug" -Recurse -Force
 
-# Copio el archivo $mysql_path\lib64\Debug\mysqlcppconn-9-vs14.dll a la carpeta .\bin\Debug\
-Copy-Item -Path "$mysql_path\lib64\Debug\mysqlcppconn-9-vs14.dll" -Destination ".\bin\Debug\"
+# Creo la carpeta $SolutionDir\bin\Debug
+$SolutionDir = Split-Path (Split-Path (Split-Path $PSScriptRoot))
+New-Item -ItemType directory -Force -Path "$SolutionDir\bin"
+New-Item -ItemType directory -Force -Path "$SolutionDir\bin\Debug"
+
+# Copio el archivo $mysql_path\lib64\Debug\mysqlcppconn-9-vs14.dll a la carpeta $SolutionDir\bin\Debug\
+Copy-Item -Path "$mysql_path\lib64\Debug\mysqlcppconn-9-vs14.dll" -Destination "$SolutionDir\bin\Debug\"
 
 # Agregar las rutas correspondientes a la variable PATH
 function Add-Path($Path) {
