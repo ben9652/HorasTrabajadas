@@ -7,6 +7,7 @@ workspace "HorasTrabajadas"
 
     IncludeDir = {}
     IncludeDir["MySQL"] = "C:/Program Files/MySQL/Connector C++ 8.0/include/jdbc"
+    IncludeDir["cURL"] = "C:/curl/builds/libcurl-vc-x86-release-static-ipv6-sspi-schannel/include"
 
     project "HorasTrabajadas"
         location "HorasTrabajadas"
@@ -31,18 +32,21 @@ workspace "HorasTrabajadas"
         
         defines
         {
-            "STATIC_CPPCON"
+            "STATIC_CPPCON",
+            "CURL_STATICLIB"
         }
         
         libdirs
         {
-            "C:/Program Files/MySQL/Connector C++ 8.0/lib64/%{cfg.buildcfg}/vs14"
+            "C:/Program Files/MySQL/Connector C++ 8.0/lib64/%{cfg.buildcfg}/vs14",
+            "C:/curl/builds/libcurl-vc-x86-release-static-ipv6-sspi-schannel/lib"
         }
 
         links
         {
             "mysqlcppconn.lib",
-            "mysqlcppconn-static.lib"
+            "mysqlcppconn-static.lib",
+            "libcurl.lib"
         }
         
         filter "configurations:Debug"
