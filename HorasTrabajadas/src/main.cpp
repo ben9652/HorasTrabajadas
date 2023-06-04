@@ -12,7 +12,6 @@
 #include <array>
 #include <vector>
 #include "Actividad.h"
-#include <VerificacionVersion.h>
 
 #define TEXTTABLE_ENCODE_MULTIBYTE_STRINGS
 #define TEXTTABLE_USE_EN_US_UTF8
@@ -37,33 +36,31 @@ int main(int argc, char** argv)
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 	SetConsoleBufferSize(1000, 20000);
 
-	VerificacionVersion verification;
-
-	//if (argc == 1)
-	//	ControladorPrincipal cp;
-	//else if (argc == 2)
-	//{
-	//	if (!ip_valida(argv[1]))
-	//	{
-	//		std::cout << "Dirección IP incorrecta" << std::endl;
-	//		return 1;
-	//	}
-	//	ControladorPrincipal cp(argv[1]);
-	//}
-	//else if (argc == 4)
-	//{
-	//	if (!ip_valida(argv[1]))
-	//	{
-	//		std::cout << "Dirección IP incorrecta" << std::endl;
-	//		return 1;
-	//	}
-	//	ControladorPrincipal cp(argv[2], argv[3], argv[1]);
-	//}
-	//else
-	//{
-	//	std::cout << "Cantidad inválida de argumentos" << std::endl;
-	//	return 1;
-	//}
+	if (argc == 1)
+		ControladorPrincipal cp;
+	else if (argc == 2)
+	{
+		if (!ip_valida(argv[1]))
+		{
+			std::cout << "Dirección IP incorrecta" << std::endl;
+			return 1;
+		}
+		ControladorPrincipal cp(argv[1]);
+	}
+	else if (argc == 4)
+	{
+		if (!ip_valida(argv[1]))
+		{
+			std::cout << "Dirección IP incorrecta" << std::endl;
+			return 1;
+		}
+		ControladorPrincipal cp(argv[2], argv[3], argv[1]);
+	}
+	else
+	{
+		std::cout << "Cantidad inválida de argumentos" << std::endl;
+		return 1;
+	}
 
 	return 0;
 }

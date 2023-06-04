@@ -1,0 +1,30 @@
+#ifndef __VERIFICACION_VERSION
+#define __VERIFICACION_VERSION
+#include <string>
+#include <stdlib.h>
+
+#define CLAVE_COMPROBACION_VERSION 0xFAFAFA
+
+class VerificacionVersion
+{
+public:
+	VerificacionVersion();
+
+	/// <summary>
+	/// Función que verifica si la versión del programa es la más reciente
+	/// </summary>
+	/// <returns>Un booleano respondiendo si es la misma versión o no</returns>
+	static bool verificarVersion();
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <returns></returns>
+	static int descargarActualizacion();
+
+private:
+	static size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s);
+	static const char* VERSION;
+};
+
+#endif

@@ -32,11 +32,14 @@ Get-ChildItem -Path "$mysql_path\lib64\Debug\debug" -Recurse | Move-Item -Destin
 # Elimino el directorio $mysql_path\lib64\Debug\debug
 Remove-Item -Path "$mysql_path\lib64\Debug\debug" -Recurse -Force
 
-# Muevo los archiv$os contenidos en la carpeta $mysql_path\lib64\Debug\vs14\debug a la carpeta $mysql_path\lib64\Debug\vs14
+# Muevo los archivos contenidos en la carpeta $mysql_path\lib64\Debug\vs14\debug a la carpeta $mysql_path\lib64\Debug\vs14
 Get-ChildItem -Path "$mysql_path\lib64\Debug\vs14\debug" -Recurse | Move-Item -Destination "$mysql_path\lib64\Debug\vs14"
 
 # Elimino el directorio $mysql_path\lib64\Debug\vs14\debug
 Remove-Item -Path "$mysql_path\lib64\Debug\vs14\debug" -Recurse -Force
+
+# Copio el archivo $mysql_path\lib64\Debug\mysqlcppconn-9-vs14.dll a la carpeta .\bin\Debug\
+Copy-Item -Path "$mysql_path\lib64\Debug\mysqlcppconn-9-vs14.dll" -Destination ".\bin\Debug\"
 
 # Agregar las rutas correspondientes a la variable PATH
 function Add-Path($Path) {

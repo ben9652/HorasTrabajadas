@@ -57,3 +57,29 @@ workspace "HorasTrabajadas"
         filter "configurations:Release"
             runtime "Release"
             optimize "on"
+
+    project "HTVersionControl"
+        location "HTVersionControl"
+        kind "StaticLib"
+        language "C++"
+        cppdialect "C++20"
+            
+        targetdir ("lib/" .. outputdir)
+        objdir ("bin-int/" .. outputdir)
+            
+        files
+        { 
+            "%{prj.location}/src/**.cpp",
+            "%{prj.location}/libraries/**.h"
+        }
+
+        includedirs
+        {
+            "%{prj.location}/libraries",
+            "vendor/curl/builds/libcurl-vc14-x64-release-dll-ipv6-sspi-schannel/include"
+        }
+            
+        defines
+        {
+            "CURL_STATICLIB"
+        }
