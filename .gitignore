@@ -2,8 +2,7 @@ x64/*
 HorasTrabajadas/x64/*
 HorasTrabajadas/x64/Debug/*
 servers/
-scripts/includes/Servers/ApacheServer.txt
-scripts/includes/Servers/MySQLServer.txt
+scripts/includes/Servers/*.txt
 vendor/curl/
 bin/
 bin-int/
