@@ -22,9 +22,18 @@ public:
 	/// <returns></returns>
 	static int descargarActualizacion();
 
+	static bool checkConnection();
+
+	static bool existeActualizador();
+
+	static void eliminarActualizador();
+
 private:
 	static size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s);
-	static const char* VERSION;
+	static const std::string VERSION;
+	static const std::string UPDATER_NAME;
+	static const std::string FILENAME;
+	static std::string servidor;
 };
 
 #endif

@@ -12,6 +12,7 @@
 #include <array>
 #include <vector>
 #include "Actividad.h"
+#include "VerificacionVersion.h"
 
 #define TEXTTABLE_ENCODE_MULTIBYTE_STRINGS
 #define TEXTTABLE_USE_EN_US_UTF8
@@ -35,6 +36,19 @@ int main(int argc, char** argv)
 	// Para Maximizar la ventana
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 	SetConsoleBufferSize(1000, 20000);
+
+	if (!VerificacionVersion::existeActualizador())
+	{
+		if (VerificacionVersion::checkConnection())
+		{
+			if (!VerificacionVersion::verificarVersion())
+			{
+				if (VerificacionVersion::descargarActualizacion()) return 0;
+			}
+		}
+	}
+	else
+		VerificacionVersion::eliminarActualizador();
 
 	if (argc == 1)
 		ControladorPrincipal cp;
