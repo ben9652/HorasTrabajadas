@@ -2,6 +2,7 @@
 #define __VERIFICACION_VERSION
 #include <string>
 #include <stdlib.h>
+#include <fstream>
 
 #define CLAVE_COMPROBACION_VERSION 0xFAFAFA
 
@@ -29,6 +30,7 @@ public:
 	static void eliminarActualizador();
 
 private:
+	static size_t write_data(void* ptr, size_t size, size_t nmemb, FILE* stream);
 	static size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s);
 	static const std::string VERSION;
 	static const std::string UPDATER_NAME;

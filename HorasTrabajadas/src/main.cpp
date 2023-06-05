@@ -37,6 +37,7 @@ int main(int argc, char** argv)
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 	SetConsoleBufferSize(1000, 20000);
 
+	bool banderaActualizacion = false;
 	if (!VerificacionVersion::existeActualizador())
 	{
 		if (VerificacionVersion::checkConnection())
@@ -48,7 +49,16 @@ int main(int argc, char** argv)
 		}
 	}
 	else
+	{
+		banderaActualizacion = true;
 		VerificacionVersion::eliminarActualizador();
+	}
+
+	if (banderaActualizacion)
+	{
+		std::cout << "Se obtuvo una actualización" << std::endl;
+		system("pause");
+	}
 
 	if (argc == 1)
 		ControladorPrincipal cp;

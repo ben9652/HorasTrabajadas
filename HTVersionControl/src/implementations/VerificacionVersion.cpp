@@ -1,9 +1,9 @@
 #include "VerificacionVersion.h"
 #include <curl/curl.h>
 #include <string>
+#include <string.h>
 #include <stdlib.h>
 #include <iostream>
-#include <fstream>
 #include <filesystem>
 
 VerificacionVersion::VerificacionVersion()
@@ -21,19 +21,20 @@ bool VerificacionVersion::verificarVersion()
     curl = curl_easy_init();
     if (curl)
     {
-        curl_easy_setopt(curl, CURLOPT_URL, servidor + archivo_version);
+        curl_easy_setopt(curl, CURLOPT_URL, (servidor + archivo_version).c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, VerificacionVersion::WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
         res = curl_easy_perform(curl);
 
-		curl_easy_cleanup(curl);
         if (res != CURLE_OK)
         {
             std::cerr << "Error: " << curl_easy_strerror(res) << std::endl;
+		    curl_easy_cleanup(curl);
             return false;
         }
         else
         {
+            curl_easy_cleanup(curl);
             if(readBuffer == VERSION)
 				return true;
 			else
@@ -61,8 +62,10 @@ int VerificacionVersion::descargarActualizacion()
             return false;
         }
 
-        curl_easy_setopt(curl, CURLOPT_URL, servidor + UPDATER_NAME);
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, VerificacionVersion::WriteCallback);
+        char* url = (char*)malloc(300);
+        strcpy_s(url, 300, (servidor + UPDATER_NAME).c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, VerificacionVersion::write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
         res = curl_easy_perform(curl);
 
@@ -91,13 +94,14 @@ bool VerificacionVersion::checkConnection() {
     curl = curl_easy_init();
     if (curl)
     {
-        curl_easy_setopt(curl, CURLOPT_URL, servidor);
+        curl_easy_setopt(curl, CURLOPT_URL, servidor.c_str());
         curl_easy_setopt(curl, CURLOPT_NOBODY, 1L); // Realizar un HTTP HEAD request
-        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 2L); // Realizar un HTTP HEAD request
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 2L);
         res = curl_easy_perform(curl);
         if (res != CURLE_OK)
         {
             // Si hay un error, imprimimos el mensaje de error y devolvemos false.
+            fprintf(stderr, "Error: %s", curl_easy_strerror(res));
             curl_easy_cleanup(curl);
             curl_global_cleanup();
             return false;
@@ -119,7 +123,8 @@ void VerificacionVersion::eliminarActualizador()
     std::filesystem::remove(filePath);
 }
 
-size_t VerificacionVersion::WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s) {
+size_t VerificacionVersion::WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s)
+{
     size_t newLength = size * nmemb;
     size_t oldLength = s->size();
     try
@@ -134,6 +139,12 @@ size_t VerificacionVersion::WriteCallback(void* contents, size_t size, size_t nm
 
     std::copy((char*)contents, (char*)contents + newLength, s->begin() + oldLength);
     return size * nmemb;
+}
+
+size_t VerificacionVersion::write_data(void* ptr, size_t size, size_t nmemb, FILE* stream)
+{
+    size_t written = fwrite(ptr, size, nmemb, stream);
+    return written;
 }
 
 const std::string VerificacionVersion::VERSION = "1.0.0";
