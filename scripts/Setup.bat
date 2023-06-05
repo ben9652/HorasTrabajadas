@@ -1,9 +1,9 @@
+@echo off
+
 pushd .\includes\Servers
 echo localhost > MySQLServer.txt
 echo localhost > ApacheServer.txt
 popd
-
-@echo off
 
 call "%~dp0\includes\MySQL\MySQLsetup.bat"
 call "%~dp0\includes\Curl\CurlSetup.bat"
