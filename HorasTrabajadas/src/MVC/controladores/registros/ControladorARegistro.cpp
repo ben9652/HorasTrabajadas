@@ -119,5 +119,5 @@ void ControladorARegistro::ejecutarLogica()
 	} while (true);
 
 	if (resultado == 0)
-		modelo->AgregarRegistro(actividad->getIdActividad(), (unsigned int)tiempoSegundos, ascii_to_utf8(descripcionString));
+		modelo->AgregarRegistro(actividad->getIdActividad(), (unsigned int)tiempoSegundos, descripcionString);
 }

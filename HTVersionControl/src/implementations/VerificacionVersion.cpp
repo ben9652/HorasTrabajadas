@@ -30,7 +30,10 @@ bool VerificacionVersion::verificarVersion()
         if (res != CURLE_OK)
         {
             std::cerr << "Error: " << curl_easy_strerror(res) << std::endl;
-		    curl_easy_cleanup(curl);
+            std::cout << "URL usada: " << servidor + UPDATER_NAME << std::endl;
+            std::cin.get();
+            curl_easy_cleanup(curl);
+            curl_global_cleanup();
             return false;
         }
         else
@@ -63,9 +66,7 @@ int VerificacionVersion::descargarActualizacion()
             return false;
         }
 
-        char* url = (char*)malloc(300);
-        strcpy_s(url, 300, (servidor + UPDATER_NAME).c_str());
-        curl_easy_setopt(curl, CURLOPT_URL, url);
+        curl_easy_setopt(curl, CURLOPT_URL, (servidor + UPDATER_NAME).c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, VerificacionVersion::write_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
         res = curl_easy_perform(curl);
@@ -73,6 +74,10 @@ int VerificacionVersion::descargarActualizacion()
         if (res != CURLE_OK)
         {
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+            std::cout << "URL usada: " << servidor + UPDATER_NAME << std::endl;
+            std::cin.get();
+            curl_easy_cleanup(curl);
+            curl_global_cleanup();
             return false;
         }
         curl_easy_cleanup(curl);
@@ -102,7 +107,9 @@ bool VerificacionVersion::checkConnection() {
         if (res != CURLE_OK)
         {
             // Si hay un error, imprimimos el mensaje de error y devolvemos false.
-            fprintf(stderr, "Error: %s", curl_easy_strerror(res));
+            fprintf(stderr, "Error: %s\n", curl_easy_strerror(res));
+            std::cout << "URL usada: " << servidor + UPDATER_NAME << std::endl;
+            std::cin.get();
             curl_easy_cleanup(curl);
             curl_global_cleanup();
             return false;
@@ -148,7 +155,7 @@ size_t VerificacionVersion::write_data(void* ptr, size_t size, size_t nmemb, FIL
     return written;
 }
 
-const std::string VerificacionVersion::VERSION = "1.0.0";
+const std::string VerificacionVersion::VERSION = "1.0.1";
 const std::string VerificacionVersion::UPDATER_NAME = "Updater.bat";
 const std::string VerificacionVersion::FILENAME = "HorasTrabajadas.exe";
-std::string VerificacionVersion::servidor = "http://" + apache_ip;
+std::string VerificacionVersion::servidor = "http://" + apache_ip + "/";

@@ -33,7 +33,7 @@ void ControladorMDescr::ejecutarLogica()
 		vista->limpiar();
 		vista->mostrar("Descripción actual: ");
 		vista->mostrar(modelo->getDescripcion());
-		vista->mostrar("\nDescrípción nueva: ");
+		vista->mostrar("\nDescripción nueva: ");
 		if (texto_escrito_descr)
 			vista->mostrar(descripcionString);
 		else
@@ -59,5 +59,6 @@ void ControladorMDescr::ejecutarLogica()
 
 	} while (true);
 
-	modelo->ModificarDescripcion(descripcionString);
+	if(strlen(descripcionString) > 0)
+		modelo->ModificarDescripcion(descripcionString);
 }

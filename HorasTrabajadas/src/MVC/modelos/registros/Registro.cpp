@@ -283,7 +283,7 @@ void Registro::ModificarDescripcion(const char* descripcion)
 	sql::PreparedStatement* pstmt = gc->prepareStatement("CALL ModificarDescripcion(?,?,?,@m)");
 	pstmt->setInt(1, this->idRegistro);
 	pstmt->setInt(2, this->idActividad);
-	pstmt->setString(3, ascii_to_utf8(descripcion));
+	pstmt->setString(3, descripcion);
 	pstmt->execute();
 	delete pstmt;
 

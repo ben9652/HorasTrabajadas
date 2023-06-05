@@ -44,6 +44,7 @@ int main(int argc, char** argv)
 		{
 			if (!VerificacionVersion::verificarVersion())
 			{
+				std::cout << "Diferencia de versiones comprobada. Actualización en curso..." << std::endl;
 				if (VerificacionVersion::descargarActualizacion()) return 0;
 			}
 		}
@@ -56,8 +57,8 @@ int main(int argc, char** argv)
 
 	if (banderaActualizacion)
 	{
-		std::cout << "Se obtuvo una actualización" << std::endl;
-		system("pause");
+		std::cout << "Programa actualizado. Presione ENTER para continuar..." << std::endl;
+		std::cin.get();
 	}
 
 	if (argc == 1)
