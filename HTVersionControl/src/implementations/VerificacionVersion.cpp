@@ -39,11 +39,12 @@ bool VerificacionVersion::verificarVersion()
         }
 
     }
+    return false;
 }
 
 int VerificacionVersion::descargarActualizacion()
 {
-
+    return 1;
 }
 
 size_t VerificacionVersion::WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s) {

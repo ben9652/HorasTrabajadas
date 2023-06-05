@@ -5,9 +5,12 @@ workspace "HorasTrabajadas"
 
     outputdir = "%{cfg.buildcfg}"
 
+    SolutionDir = "$(SolutionDir)"
+    
     IncludeDir = {}
     IncludeDir["MySQL"] = "C:/Program Files/MySQL/Connector C++ 8.0/include/jdbc"
-    IncludeDir["cURL"] = "vendor/curl/builds/libcurl-vc-x86-release-static-ipv6-sspi-schannel"
+    IncludeDir["cURL"] = SolutionDir .. "vendor/curl/builds/libcurl-vc14-x64-release-dll-ipv6-sspi-schannel"
+    IncludeDir["VersionControl"] = SolutionDir .. "lib"
 
     project "HorasTrabajadas"
         location "HorasTrabajadas"
@@ -15,8 +18,8 @@ workspace "HorasTrabajadas"
         language "C++"
         cppdialect "C++20"
         
-        targetdir ("bin/" .. outputdir)
-        objdir ("bin-int/" .. outputdir)
+        targetdir (SolutionDir .. "bin/" .. outputdir)
+        objdir (SolutionDir .. "bin-int/")
         
         files
         { 
@@ -28,7 +31,8 @@ workspace "HorasTrabajadas"
         {
             "%{prj.location}/libraries",
             "%{IncludeDir.MySQL}",
-            "%{IncludeDir.cURL}/include"
+            "%{IncludeDir.cURL}/include",
+            SolutionDir .. "HTVersionControl/libraries"
         }
         
         defines
@@ -40,14 +44,17 @@ workspace "HorasTrabajadas"
         libdirs
         {
             "C:/Program Files/MySQL/Connector C++ 8.0/lib64/%{cfg.buildcfg}/vs14",
-            "%{IncludeDir.cURL}/lib"
+            "%{IncludeDir.cURL}/lib",
+            "%{IncludeDir.VersionControl}/" .. outputdir
         }
 
         links
         {
             "mysqlcppconn.lib",
             "mysqlcppconn-static.lib",
-            "libcurl.lib"
+            "libcurl.lib",
+            "HTVersionControl.lib",
+            "HTVersionControl"
         }
         
         filter "configurations:Debug"
@@ -64,8 +71,8 @@ workspace "HorasTrabajadas"
         language "C++"
         cppdialect "C++20"
             
-        targetdir ("lib/" .. outputdir)
-        objdir ("bin-int/" .. outputdir)
+        targetdir (SolutionDir .. "lib/" .. outputdir)
+        objdir (SolutionDir .. "bin-int/")
             
         files
         { 
@@ -83,3 +90,12 @@ workspace "HorasTrabajadas"
         {
             "CURL_STATICLIB"
         }
+
+        filter "configurations:Debug"
+            runtime "Debug"
+            symbols "on"
+
+        filter "configurations:Release"
+            runtime "Release"
+            optimize "on"
+            defines "WL_DIST"
