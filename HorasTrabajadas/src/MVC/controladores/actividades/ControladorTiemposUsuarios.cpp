@@ -1,6 +1,7 @@
 #include "ControladorTiemposUsuarios.h"
 #include <iostream>
 #include <stdlib.h>
+#include <ConnectionException.h>
 
 ControladorTiemposUsuarios::ControladorTiemposUsuarios(Actividad&& _actividad)
 {
@@ -21,9 +22,19 @@ void ControladorTiemposUsuarios::ejecutarLogica()
 	t.add("Tiempo trabajado");
 	t.endOfRow();
 
-	sql::PreparedStatement* pstmt = conector->prepareStatement("CALL TiempoTotalUsuarioActividad(?)");
-	pstmt->setInt(1, actividad->getIdActividad());
-	pstmt->execute();
+	sql::PreparedStatement* pstmt;
+	try
+	{
+		pstmt = conector->prepareStatement("CALL TiempoTotalUsuarioActividad(?)");
+		pstmt->setInt(1, actividad->getIdActividad());
+		pstmt->execute();
+	}
+	catch (ConnectionException e)
+	{
+		std::cout << e.what() << std::endl;
+		std::cin.get();
+		return;
+	}
 
 	do
 	{

@@ -32,6 +32,7 @@ workspace "HorasTrabajadas"
             "%{prj.location}/libraries",
             "%{IncludeDir.MySQL}",
             "%{IncludeDir.cURL}/include",
+            SolutionDir .. "servers",
             SolutionDir .. "HTVersionControl/libraries"
         }
         
@@ -83,7 +84,8 @@ workspace "HorasTrabajadas"
         includedirs
         {
             "%{prj.location}/libraries",
-            "%{IncludeDir.cURL}/include"
+            "%{IncludeDir.cURL}/include",
+            SolutionDir .. "servers"
         }
             
         defines
