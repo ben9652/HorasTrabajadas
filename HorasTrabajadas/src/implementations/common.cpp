@@ -957,7 +957,7 @@ std::string wstring_to_string(const std::wstring& wstr)
 
 bool esWindows11()
 {
-	return ContainsSubstring(GetCommandOutput("wmic os get Caption"), "Windows 11");
+	return IsRunAsAdmin() || ContainsSubstring(GetCommandOutput("wmic os get Caption"), "Windows 11");
 }
 
 void activarModoAdministrador()
@@ -977,10 +977,9 @@ void activarModoAdministrador()
 
 	char* command = (char*)malloc(1024);
 	memset(command, 0, 1024);
-	strcpy_s(command, 1024, "net session >nul 2>&1 || (powershell -NoProfile -ExecutionPolicy Bypass -Command \"Start-Process -Verb RunAs -FilePath ");
+	strcpy_s(command, 1024, "net session >nul 2>&1 || (powershell -NoProfile -ExecutionPolicy Bypass -Command \"Start-Process -Verb RunAs -FilePath \'");
 	strcat_s(command, 1024, path_to_here.c_str());
-	strcat_s(command, 1024, " -WorkingDirectory '%cd%'; exit\")");
-
+	strcat_s(command, 1024, "\' -WorkingDirectory '%cd%'; exit\")");
 	system(command);
 
 	if (!IsRunAsAdmin())
