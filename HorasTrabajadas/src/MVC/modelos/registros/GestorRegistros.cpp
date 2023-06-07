@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <wchar.h>
 #include "common.h"
+#include <ConnectionException.h>
 
 GestorRegistros* GestorRegistros::gestor;
 size_t GestorRegistros::cantidad_de_filas_en_bd = 0;
@@ -91,8 +92,7 @@ void GestorRegistros::AgregarRegistro(int idActividad, unsigned int segundosCons
         delete pstmt;
     }
     catch (sql::SQLException e) {
-        const char* msg = e.what();
-        std::cout << msg << std::endl;
+        throw ConnectionException(e.what());
     }
 
     time_t tActual;

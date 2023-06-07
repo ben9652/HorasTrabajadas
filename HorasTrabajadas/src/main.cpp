@@ -36,6 +36,7 @@ int main(int argc, char** argv)
 	//::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
 	// Para Maximizar la ventana
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
+	SetConsoleTitle(TEXT("Registro de horas trabajadas"));
 	SetConsoleBufferSize(1000, 20000);
 
 	if (!ip_valida(apache_ip.c_str()))

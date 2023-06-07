@@ -4,6 +4,7 @@
 #include <sstream>
 #include <ctype.h>
 #include "common.h"
+#include <ConnectionException.h>
 
 char* ControladorARegistro::tiempoString = (char*)malloc(10);
 size_t ControladorARegistro::index_tiempoString = 0;
@@ -119,5 +120,13 @@ void ControladorARegistro::ejecutarLogica()
 	} while (true);
 
 	if (resultado == 0)
-		modelo->AgregarRegistro(actividad->getIdActividad(), (unsigned int)tiempoSegundos, descripcionString);
+	{
+		try {
+			modelo->AgregarRegistro(actividad->getIdActividad(), (unsigned int)tiempoSegundos, descripcionString);
+		}
+		catch (ConnectionException ce) {
+			std::cout << ce.what() << std::endl;
+			std::cin.get();
+		}
+	}
 }
