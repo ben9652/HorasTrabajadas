@@ -3,6 +3,7 @@
 #include "GestorConexion.h"
 #include "common.h"
 #include "TreeException.h"
+#include "ConnectionException.h"
 #include <iostream>
 
 GestorActividades* GestorActividades::gestor;
@@ -61,7 +62,7 @@ sql::ResultSet* GestorActividades::CrearActividad(const char* nombreActividad)
 		pstmt->execute();
 	}
     catch (sql::SQLException e) {
-		std::cout << e.what() << std::endl;
+        throw ConnectionException(e.what());
 	}
 
     pstmt = gc->prepareStatement("SELECT @m");

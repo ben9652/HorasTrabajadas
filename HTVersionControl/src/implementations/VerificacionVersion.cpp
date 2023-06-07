@@ -157,7 +157,7 @@ size_t VerificacionVersion::write_data(void* ptr, size_t size, size_t nmemb, FIL
     return written;
 }
 
-const std::string VerificacionVersion::VERSION = "1.0.1";
+const std::string VerificacionVersion::VERSION = "1.0.0";
 const std::string VerificacionVersion::UPDATER_NAME = "Updater.bat";
 const std::string VerificacionVersion::FILENAME = "HorasTrabajadas.exe";
 std::string VerificacionVersion::servidor = "http://" + apache_ip + "/";

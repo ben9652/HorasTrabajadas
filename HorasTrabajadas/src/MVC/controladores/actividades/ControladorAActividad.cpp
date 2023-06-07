@@ -33,13 +33,19 @@ void ControladorAActividad::ejecutarLogica()
 
 	vista->mostrar("\n");
 
-	sql::ResultSet* res = ga->CrearActividad(nombreActividad);
-	sql::SQLString mensaje = res->getString(1);
-	const char* mensajeMostrado = utf8_to_ascii(mensaje.c_str());
+	try {
+		sql::ResultSet* res = ga->CrearActividad(nombreActividad);
+		sql::SQLString mensaje = res->getString(1);
+		const char* mensajeMostrado = utf8_to_ascii(mensaje.c_str());
 #ifdef FUNCIONA_CHARACTER_SET_LATIN
-	vista->mostrar(mensaje.c_str());
+		vista->mostrar(mensaje.c_str());
 #else
-	vista->mostrar(mensajeMostrado);
+		vista->mostrar(mensajeMostrado);
 #endif
-	vista->ingresar(0);
+		vista->ingresar(0);
+	}
+	catch (ConnectionException ce) {
+		std::cout << ce.what() << std::endl;
+		std::cin.get();
+	}
 }
