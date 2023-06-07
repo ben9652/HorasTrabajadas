@@ -80,6 +80,8 @@ int cambiar_ascii_a_ISO8859(int c);
 std::vector<int>& arregloConFiltro(std::initializer_list<int> v, int numFiltro);
 std::vector<int>& arregloConFiltro(int* v, size_t tam, int numFiltro);
 int tiempoIngresadoCorrectamente(const char* tiempoString);
+bool esWindows11();
+void activarModoAdministrador();
 
 static std::binary_semaphore print_permission(1);
 

@@ -107,9 +107,11 @@ bool VerificacionVersion::checkConnection() {
         if (res != CURLE_OK)
         {
             // Si hay un error, imprimimos el mensaje de error y devolvemos false.
+#ifdef _DEBUG
             fprintf(stderr, "Error: %s\n", curl_easy_strerror(res));
             std::cout << "URL usada: " << servidor + UPDATER_NAME << std::endl;
             std::cin.get();
+#endif
             curl_easy_cleanup(curl);
             curl_global_cleanup();
             return false;

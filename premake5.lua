@@ -61,6 +61,7 @@ workspace "HorasTrabajadas"
         filter "configurations:Debug"
             runtime "Debug"
             symbols "on"
+            defines "_DEBUG"
 
         filter "configurations:Release"
             runtime "Release"

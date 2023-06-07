@@ -1,7 +1,10 @@
 ﻿#include "common.h"
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <string.h>
+#include <string>
+#include <Windows.h>
 #include <stdlib.h>
 #include <locale>
 #include <conio.h>
@@ -904,4 +907,82 @@ int tiempoIngresadoCorrectamente(const char* tiempoString)
 	}
 
 	return resultado;
+}
+
+bool ContainsSubstring(const std::string& mainString, const std::string& substring)
+{
+	return (mainString.find(substring) != std::string::npos);
+}
+
+std::string GetCommandOutput(const std::string& command)
+{
+	std::stringstream output;
+	FILE* stream = _popen(command.c_str(), "r");
+	if (stream)
+	{
+		const int bufferSize = 128;
+		char buffer[bufferSize];
+		while (fgets(buffer, bufferSize, stream) != nullptr)
+		{
+			output << buffer;
+		}
+		_pclose(stream);
+	}
+	return output.str();
+}
+
+bool IsRunAsAdmin()
+{
+	BOOL isRunAsAdmin = FALSE;
+	PSID adminGroupSid = NULL;
+	SID_IDENTIFIER_AUTHORITY ntAuthority = SECURITY_NT_AUTHORITY;
+	if (AllocateAndInitializeSid(&ntAuthority, 2, SECURITY_BUILTIN_DOMAIN_RID, DOMAIN_ALIAS_RID_ADMINS, 0, 0, 0, 0, 0, 0, &adminGroupSid))
+	{
+		if (!CheckTokenMembership(NULL, adminGroupSid, &isRunAsAdmin))
+		{
+			isRunAsAdmin = FALSE;
+		}
+		FreeSid(adminGroupSid);
+	}
+	return isRunAsAdmin;
+}
+
+std::string wstring_to_string(const std::wstring& wstr)
+{
+	int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, NULL, 0, NULL, NULL);
+	std::string str(size_needed, 0);
+	WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &str[0], size_needed, NULL, NULL);
+	return str;
+}
+
+bool esWindows11()
+{
+	return ContainsSubstring(GetCommandOutput("wmic os get Caption"), "Windows 11");
+}
+
+void activarModoAdministrador()
+{
+	LPWSTR buffer = (LPWSTR)malloc(1000 * sizeof(WCHAR));
+	memset(buffer, 0, 1000 * sizeof(WCHAR));
+	std::string path_to_here;
+	if (GetModuleFileName(NULL, buffer, MAX_PATH)) {
+		// Imprimo los caracteres de "buffer"
+		path_to_here = wstring_to_string(buffer);
+	}
+	else {
+		std::cout << "Error al obtener la ruta del ejecutable" << std::endl;
+		std::cin.get();
+		exit(1);
+	}
+
+	char* command = (char*)malloc(1024);
+	memset(command, 0, 1024);
+	strcpy_s(command, 1024, "net session >nul 2>&1 || (powershell -NoProfile -ExecutionPolicy Bypass -Command \"Start-Process -Verb RunAs -FilePath ");
+	strcat_s(command, 1024, path_to_here.c_str());
+	strcat_s(command, 1024, " -WorkingDirectory '%cd%'; exit\")");
+
+	system(command);
+
+	if (!IsRunAsAdmin())
+		exit(0);
 }

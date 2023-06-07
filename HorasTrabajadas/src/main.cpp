@@ -11,7 +11,6 @@
 #include <initializer_list>
 #include <array>
 #include <vector>
-#include "Actividad.h"
 #include "VerificacionVersion.h"
 
 #define TEXTTABLE_ENCODE_MULTIBYTE_STRINGS
@@ -31,11 +30,26 @@ int main(int argc, char** argv)
 	// para poder usar caracteres del español en las cadenas de caracteres
 	std::setlocale(LC_ALL, "spanish");
 
+	if (esWindows11()) activarModoAdministrador();
+
 	// Para poner el programa en pantalla completa
 	//::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
 	// Para Maximizar la ventana
 	ShowWindow(GetConsoleWindow(), SW_MAXIMIZE);
 	SetConsoleBufferSize(1000, 20000);
+
+	if (!ip_valida(apache_ip.c_str()))
+	{
+		std::cout << "Dirección IP de servidor Apache incorrecta" << std::endl;
+		std::cin.get();
+		return 1;
+	}
+	if(!ip_valida(mysql_ip.c_str()))
+	{
+		std::cout << "Dirección IP de servidor MySQL incorrecta" << std::endl;
+		std::cin.get();
+		return 1;
+	}
 
 	bool banderaActualizacion = false;
 	if (!VerificacionVersion::existeActualizador())
@@ -61,26 +75,12 @@ int main(int argc, char** argv)
 		std::cin.get();
 	}
 
+	// O se inicializa el programa sin ningún argumento...
 	if (argc == 1)
 		ControladorPrincipal cp;
-	else if (argc == 2)
-	{
-		if (!ip_valida(argv[1]))
-		{
-			std::cout << "Dirección IP incorrecta" << std::endl;
-			return 1;
-		}
-		ControladorPrincipal cp(argv[1]);
-	}
-	else if (argc == 4)
-	{
-		if (!ip_valida(argv[1]))
-		{
-			std::cout << "Dirección IP incorrecta" << std::endl;
-			return 1;
-		}
-		ControladorPrincipal cp(argv[2], argv[3], argv[1]);
-	}
+	// ... o se inicializa el programa con dos argumentos, el primero es el nombre de usuario y el segundo es la contraseña
+	else if (argc == 3)
+		ControladorPrincipal cp(argv[1], argv[2]);
 	else
 	{
 		std::cout << "Cantidad inválida de argumentos" << std::endl;
@@ -198,30 +198,59 @@ void pruebaFiltradoTiempo()
 		std::cout << i + 1 << ": " << v[i] << std::endl;
 }
 
-bool ip_valida(const char* cadena)
+bool ip_pura_valida(const char* cadena)
 {
+	char copia_cadena[20];
+	strcpy_s(copia_cadena, 20, cadena);
+
 	char* next_token;
-	char* posible_direccion_ip = (char*)malloc(20);
-	strcpy_s(posible_direccion_ip, 20, cadena);
-	posible_direccion_ip = strtok_s(posible_direccion_ip, ".", &next_token);
+	char* segmento = strtok_s(copia_cadena, ".", &next_token);
 	unsigned int contador_numeros = 0;
-	while (posible_direccion_ip != nullptr)
+
+	while (segmento != nullptr)
 	{
-		if (!es_numero(posible_direccion_ip))
+		if (!es_numero(segmento))
 			return false;
 		else
 		{
-			int num = atoi(posible_direccion_ip);
+			int num = atoi(segmento);
 			if (num < 0 || num > 255)
 				return false;
 		}
-		posible_direccion_ip = strtok_s(NULL, ".", &next_token);
 
+		segmento = strtok_s(nullptr, ".", &next_token);
 		contador_numeros++;
 	}
 
-	if (contador_numeros != 4)
+	return (contador_numeros == 4);
+}
+
+bool ip_valida(const char* cadena)
+{
+	if (strlen(cadena) >= 30) // Asegurándonos de que la cadena no es demasiado larga.
 		return false;
 
-	return true;
+	char copia_cadena[30];
+	strcpy_s(copia_cadena, 30, cadena);
+
+	char* next_token;
+	char* segmento_ip = strtok_s(copia_cadena, ":", &next_token);
+	char* segmento_puerto = strtok_s(nullptr, ":", &next_token);
+
+	if (segmento_ip == nullptr || !ip_pura_valida(segmento_ip))
+		return false;
+
+	if (segmento_puerto != nullptr)
+	{
+		if (!es_numero(segmento_puerto))
+			return false;
+		else
+		{
+			int num = atoi(segmento_puerto);
+			if (num < 0 || num > 65535)
+				return false;
+		}
+	}
+
+	return (strtok_s(nullptr, ":", &next_token) == nullptr); // Asegurándonos de que no hay más segmentos.
 }
