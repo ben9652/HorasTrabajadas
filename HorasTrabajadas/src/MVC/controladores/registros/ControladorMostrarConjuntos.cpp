@@ -47,5 +47,5 @@ void ControladorMostrarConjuntos::ejecutarLogica()
 		std::cout << "------------------------------------------------\n\n" << std::endl;
 	}
 
-	vista->ingresar(0);
+	vista->ingresar_opcion_salir(0);
 }

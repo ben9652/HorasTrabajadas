@@ -23,7 +23,8 @@ bool ControladorDelActividad::ejecutarLogica()
 		resultado_operacion_borrado = true;
 	vista->mostrar(mensaje_devuelto.c_str());
 #else
-	if (!strcmp(utf8_to_ascii(mensaje_devuelto.c_str()), "¡Actividad eliminada con éxito!"))
+	const char* mensaje_exito = utf8_to_ascii("¡Actividad eliminada con éxito!");
+	if (!strcmp(utf8_to_ascii(mensaje_devuelto.c_str()), mensaje_exito))
 		resultado_operacion_borrado = true;
 	vista->mostrar(utf8_to_ascii(mensaje_devuelto.c_str()));
 #endif

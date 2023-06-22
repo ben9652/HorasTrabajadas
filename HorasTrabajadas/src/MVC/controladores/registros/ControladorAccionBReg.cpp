@@ -153,14 +153,18 @@ sql::PreparedStatement* ControladorAccionBReg::hacerBusqueda()
 		pstmt->setString(3, "><");
 
 	if (cft.hayFiltro())
+	{
 		pstmt->setUInt(4, cft.getTiempoFiltroInicio());
+		if(cft.getCriterio() == ControladorFiltroFecha::ENTRE)
+			pstmt->setUInt(5, cft.getTiempoFiltroFin());
+		else
+			pstmt->setNull(5, sql::DataType::INTEGER);
+	}
 	else
+	{
 		pstmt->setNull(4, sql::DataType::INTEGER);
-
-	if (cft.hayFiltro())
-		pstmt->setUInt(5, cft.getTiempoFiltroFin());
-	else
 		pstmt->setNull(5, sql::DataType::INTEGER);
+	}
 
 	if (cff.getCriterio() == ControladorFiltroFecha::SIN_CRITERIO)
 		pstmt->setNull(6, sql::DataType::VARCHAR);
@@ -178,14 +182,18 @@ sql::PreparedStatement* ControladorAccionBReg::hacerBusqueda()
 		pstmt->setString(6, "><");
 
 	if (cff.hayFiltro())
+	{
 		pstmt->setDateTime(7, cff.getFiltroFechaInicio());
+		if(cff.getCriterio() == ControladorFiltroFecha::ENTRE)
+			pstmt->setDateTime(8, cff.getFiltroFechaFin());
+		else
+			pstmt->setNull(8, sql::DataType::DATE);
+	}
 	else
+	{
 		pstmt->setNull(7, sql::DataType::DATE);
-
-	if (cff.hayFiltro())
-		pstmt->setDateTime(8, cff.getFiltroFechaFin());
-	else
 		pstmt->setNull(8, sql::DataType::DATE);
+	}
 
 	if (cfd.hayFiltro())
 		pstmt->setString(9, cfd.getFiltro());

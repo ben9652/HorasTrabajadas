@@ -191,6 +191,8 @@ void GestorRegistros::Dame(const char* usuario)
     std::string consulta = "SELECT * FROM Registros";
     if (strcmp(usuario, "keanu") == 0)
         consulta += " WHERE idActividad = 1";
+    if (strcmp(usuario, "juli") == 0)
+        consulta += " WHERE idActividad = 3";
     sql::ResultSet* res = stmt->executeQuery(consulta);
 
     int contador = 0;

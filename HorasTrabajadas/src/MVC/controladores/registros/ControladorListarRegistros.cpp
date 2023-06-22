@@ -51,6 +51,13 @@ void ControladorListarRegistros::ejecutarLogica()
 		vista->limpiar();
 		size_t cantidadRegistros = actividad->getRegistrosTotales();
 
+		if (cantidadRegistros == 0)
+		{
+			vista->mostrar("No hay registros para mostrar.");
+			vista->ingresar_opcion_salir(0);
+			break;
+		}
+
 		for (int i = 1, c = 0; c < cantidadRegistros; i++)
 		{
 			Registro& r = modelo->obtenerRegistroPorId(i, idActividad);
