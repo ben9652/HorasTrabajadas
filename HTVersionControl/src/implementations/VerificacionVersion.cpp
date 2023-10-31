@@ -18,7 +18,7 @@ bool VerificacionVersion::verificarVersion()
     std::string readBuffer;
 
     std::string archivo_version = "latest_version.txt";
-
+    
     curl = curl_easy_init();
     if (curl)
     {
@@ -157,7 +157,7 @@ size_t VerificacionVersion::write_data(void* ptr, size_t size, size_t nmemb, FIL
     return written;
 }
 
-const std::string VerificacionVersion::VERSION = "1.0.4";
+const std::string VerificacionVersion::VERSION = "1.0.12";
 const std::string VerificacionVersion::UPDATER_NAME = "Updater.bat";
 const std::string VerificacionVersion::FILENAME = "HorasTrabajadas.exe";
 std::string VerificacionVersion::servidor = "http://" + apache_ip + "/";

@@ -81,10 +81,10 @@ void ControladorPrincipal::ejecutarLogica(const char* servidor)
 
 	sql::SQLString consulta;
 	sql::SQLString condicion_usuario = "";
-	if (strcmp(conexion->getUsuario(), "keanu") == 0)
-		condicion_usuario = " WHERE idActividad = 1";
+	if (strcmp(conexion->getUsuario(), "keanu") == 0 || strcmp(conexion->getUsuario(), "ben96") == 0)
+		condicion_usuario = " WHERE idActividad = 2";
 	if(strcmp(conexion->getUsuario(), "juli") == 0)
-		condicion_usuario = " WHERE idActividad = 3";
+		condicion_usuario = " WHERE idActividad >= 3 AND idActividad <= 8";
 
 	// Obtengo la cantidad de filas que hay en la tabla Actividades
 	stmt = conexion->createStatement();
