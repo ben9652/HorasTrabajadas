@@ -3,6 +3,7 @@ HorasTrabajadas/x64/*
 HorasTrabajadas/x64/Debug/*
 servers/
 scripts/includes/Servers/*.txt
+scripts/Inno Setup/Output
 vendor/curl/
 bin/
 bin-int/
